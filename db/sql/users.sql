@@ -1,0 +1,9 @@
+USE cocomo;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT(11) AUTO_INCREMENT NOT NULL,
+    login VARCHAR(31) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(255),
+    PRIMARY KEY (id)
+);
