@@ -62,8 +62,10 @@ class AuthController {
                         refreshToken: tokens.refreshToken,
                     });
             }
+            else {
+                return next(ApiError.BadRequest("Incorrect password"));
+            }
 
-            return res.json(user);
         } catch (e) {
             next(e)
         }
