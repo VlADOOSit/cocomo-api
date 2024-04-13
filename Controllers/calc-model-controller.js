@@ -5,7 +5,7 @@ const ApiError = require("../utils/ApiError");
 class CalcModelController {
     async createCalcModel(req, res, next) {
         try {
-            if (!req.body.kloc || !req.body.user_id || !req.body.project_type || !req.body.saving_type) {
+            if (!req.body.kloc || !req.body.project_type || !req.body.saving_type) {
                 return next(ApiError.BadRequest("Check all fields"));
             }
 
@@ -14,6 +14,7 @@ class CalcModelController {
                 kloc: req.body.kloc,
                 project_type: req.body.project_type,
                 saving_type: req.body.saving_type,
+                advancedFlag: req.body.advancedFlag,
                 rating_attr: JSON.stringify(req.body.rating_attr)
             };
 
@@ -32,8 +33,9 @@ class CalcModelController {
 
     async getCalcModelsListByUser(req, res, next) {
         try {
-            console.log(req.user.id)
-            const [getCalcModel] = await CalcModel.getListCalcModelsByUser(req.user.id);
+            const { savingType } = req.query;
+           
+            const [getCalcModel] = await CalcModel.getListCalcModelsByUser(req.user.id, savingType);
             
             return res.status(200).json(getCalcModel);
         } catch(e) {
