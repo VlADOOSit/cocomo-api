@@ -6,6 +6,7 @@ const config = require('./config.json');
 const ErrorHandler = require('./Middlewares/errorHandler');
 
 const AuthRouter = require('./Routes/auth-router');
+const CalcModelRouter = require('./Routes/calc-model-router');
 
 const PORT = process.env.PORT || config.server.port;
 const HOST = config.server.host
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth', AuthRouter);
+app.use('/api/calc', CalcModelRouter);
 
 app.use(ErrorHandler);
 
