@@ -7,6 +7,7 @@ const router = new Router();
 router.post('/', authMiddleware, calcModelController.createCalcModel);
 router.delete('/', calcModelController.deleteCalcModelById);
 router.get('/:savingType', authMiddleware, calcModelController.getCalcModelsListByUser);
+router.get('/users', authMiddleware, calcModelController.getCalcUsers);
 
 
 module.exports = router;
