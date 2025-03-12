@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cocomo
+      MYSQL_USER: vkharkivsk
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/sql/initial_db.sql:/docker-entrypoint-initdb.d/initial_db.sql
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: vkharkivsk
+      DB_PASSWORD: password
+      DB_NAME: cocomo
+ 
