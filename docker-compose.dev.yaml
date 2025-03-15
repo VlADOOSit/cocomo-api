@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - frontend
+    networks:
+      - webnet
+
+  app:
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app  
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: db
+      DB_USER: vkharkivsk
+      DB_PASSWORD: password
+      DB_NAME: cocomo
+    depends_on:
+      - db
+    networks:
+      - webnet
+
+  frontend:
+    build:
+      context: ../cocomo-calc
+      dockerfile: Dockerfile.dev
+    command: npm start
+    ports:
+      - "3000:3000"
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ../cocomo-calc:/usr/src/front
+      - /usr/src/front/node_modules
+    stdin_open: true
+    tty: true
+    networks:
+      - webnet
